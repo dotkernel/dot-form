@@ -24,6 +24,7 @@ class ConfigProvider
     {
         return [
             'dependencies' => $this->getDependenciesConfig(),
+            'view_helpers' => $this->getViewHelpersConfig(),
 
             'dot_form' => [
 
@@ -51,5 +52,11 @@ class ConfigProvider
                 'FormAnnotationBuilder' => AnnotationBuilderFactory::class,
             ]
         ];
+    }
+
+    public function getViewHelpersConfig()
+    {
+        $zendFormConfigProvider = new \Zend\Form\ConfigProvider();
+        return $zendFormConfigProvider->getViewHelperConfig();
     }
 }
