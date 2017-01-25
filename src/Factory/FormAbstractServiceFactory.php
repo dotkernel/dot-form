@@ -77,5 +77,7 @@ class FormAbstractServiceFactory extends \Zend\Form\FormAbstractServiceFactory
         if ($container->has('InputFilterManager')) {
             $formFactory->setInputFilterFactory(new Factory($container->get('InputFilterManager')));
         }
+
+        return $formFactory;
     }
 }
