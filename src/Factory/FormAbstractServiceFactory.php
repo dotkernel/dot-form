@@ -44,6 +44,18 @@ class FormAbstractServiceFactory extends \Zend\Form\FormAbstractServiceFactory
 
     /**
      * @param ContainerInterface $container
+     * @param string $requestedName
+     * @param array|null $options
+     * @return \Zend\Form\ElementInterface
+     */
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    {
+        $parts = explode('.', $requestedName);
+        return parent::__invoke($container, $parts[1], $options);
+    }
+
+    /**
+     * @param ContainerInterface $container
      * @return array
      */
     protected function getConfig(ContainerInterface $container)
