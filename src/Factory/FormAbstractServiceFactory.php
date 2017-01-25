@@ -10,6 +10,7 @@
 namespace Dot\Form\Factory;
 
 use Interop\Container\ContainerInterface;
+use Zend\InputFilter\Factory;
 
 /**
  * Class FormAbstractServiceFactory
@@ -68,5 +69,13 @@ class FormAbstractServiceFactory extends \Zend\Form\FormAbstractServiceFactory
         }
 
         return $this->config;
+    }
+
+    protected function getFormFactory(ContainerInterface $container)
+    {
+        $formFactory = parent::getFormFactory($container);
+        if ($container->has('InputFilterManager')) {
+            $formFactory->setInputFilterFactory(new Factory($container->get('InputFilterManager')));
+        }
     }
 }
