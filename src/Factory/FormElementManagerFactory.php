@@ -7,6 +7,8 @@
  * Time: 1:39 AM
  */
 
+declare(strict_types = 1);
+
 namespace Dot\Form\Factory;
 
 use Dot\Form\FormElementManager;

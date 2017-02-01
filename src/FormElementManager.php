@@ -7,6 +7,8 @@
  * Time: 1:54 AM
  */
 
+declare(strict_types = 1);
+
 namespace Dot\Form;
 
 use Zend\Form\FormElementManager\FormElementManagerV3Polyfill;

@@ -7,6 +7,8 @@
  * Time: 1:41 AM
  */
 
+declare(strict_types = 1);
+
 namespace Dot\Form\Factory;
 
 use Interop\Container\ContainerInterface;
@@ -21,10 +23,10 @@ class FormAbstractServiceFactory extends \Zend\Form\FormAbstractServiceFactory
 {
     const PREFIX = 'dot-form';
 
-    /** @var string  */
+    /** @var string */
     protected $configKey = 'dot_form';
 
-    /** @var string  */
+    /** @var string */
     protected $subConfigKey = 'forms';
 
     /**
@@ -67,10 +69,10 @@ class FormAbstractServiceFactory extends \Zend\Form\FormAbstractServiceFactory
 
             if (!is_null($extendsConfigKey)
                 && array_key_exists($extendsConfigKey, $config)
-                && is_array($config[$extendsConfigKey])) {
+                && is_array($config[$extendsConfigKey])
+            ) {
                 $specificConfig = ArrayUtils::merge($config[$extendsConfigKey], $specificConfig);
             }
-
         } while ($extendsConfigKey != null);
 
         $this->config[$parts[1]] = $specificConfig;
@@ -82,7 +84,7 @@ class FormAbstractServiceFactory extends \Zend\Form\FormAbstractServiceFactory
      * @param ContainerInterface $container
      * @return array
      */
-    protected function getConfig(ContainerInterface $container)
+    protected function getConfig(ContainerInterface $container): array
     {
         parent::getConfig($container);
         if (!empty($this->config)) {
@@ -94,7 +96,7 @@ class FormAbstractServiceFactory extends \Zend\Form\FormAbstractServiceFactory
         return $this->config;
     }
 
-    protected function getFormFactory(ContainerInterface $container)
+    protected function getFormFactory(ContainerInterface $container): \Zend\Form\Factory
     {
         $formFactory = parent::getFormFactory($container);
         if ($container->has('InputFilterManager')) {

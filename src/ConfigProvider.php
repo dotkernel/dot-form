@@ -7,6 +7,8 @@
  * Time: 1:16 AM
  */
 
+declare(strict_types = 1);
+
 namespace Dot\Form;
 
 use Dot\Form\Factory\FormAbstractServiceFactory;
@@ -20,7 +22,7 @@ use Zend\Form\Annotation\AnnotationBuilderFactory;
  */
 class ConfigProvider
 {
-    public function __invoke()
+    public function __invoke(): array
     {
         return [
             'dependencies' => $this->getDependenciesConfig(),
@@ -36,7 +38,7 @@ class ConfigProvider
         ];
     }
 
-    public function getDependenciesConfig()
+    public function getDependenciesConfig(): array
     {
         return [
             'abstract_factories' => [
@@ -54,7 +56,7 @@ class ConfigProvider
         ];
     }
 
-    public function getViewHelpersConfig()
+    public function getViewHelpersConfig(): array
     {
         $zendFormConfigProvider = new \Zend\Form\ConfigProvider();
         return $zendFormConfigProvider->getViewHelperConfig();
