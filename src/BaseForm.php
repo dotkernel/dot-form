@@ -37,7 +37,7 @@ class BaseForm extends Form
                 'message' => 'The form used to make the request has expired. Please try again now'
             ]
         ]);
-        $this->add($csrf);
+        $this->add($csrf, ['priority' => -9999]);
     }
 
     /**
