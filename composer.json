@@ -27,7 +27,11 @@
   "require-dev": {
     "phpunit/phpunit": "^4.7",
     "squizlabs/php_codesniffer": "^2.5",
-    "doctrine/annotations": "^1.3"
+    "doctrine/annotations": "^1.3",
+
+    "dotkernel/dot-ems": "dev-reworked as 0.6.x-dev",
+    "dotkernel/dot-helpers": "dev-develop as 0.6.x-dev",
+    "dotkernel/dot-event": "dev-develop as 0.6.x-dev"
   },
   "repositories": [
     {
@@ -45,6 +49,10 @@
     {
       "type": "vcs",
       "url": "https://github.com/dotkernel/dot-hydrator"
+    },
+    {
+      "type": "vcs",
+      "url": "https://github.com/dotkernel/dot-ems"
     }
   ],
   "autoload": {

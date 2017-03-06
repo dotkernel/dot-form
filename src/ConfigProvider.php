@@ -11,6 +11,8 @@ declare(strict_types = 1);
 
 namespace Dot\Form;
 
+use Dot\Form\Element\EntitySelect;
+use Dot\Form\Factory\EntitySelectFactory;
 use Dot\Form\Factory\FormAbstractServiceFactory;
 use Dot\Form\Factory\FormElementManagerFactory;
 use Zend\Form\Annotation\AnnotationBuilder;
@@ -30,7 +32,16 @@ class ConfigProvider
 
             'dot_form' => [
 
-                'form_manager' => [],
+                'form_manager' => [
+                    'factories' => [
+                        EntitySelect::class => EntitySelectFactory::class,
+                    ],
+                    'aliases' => [
+                        'EntitySelect' => EntitySelect::class,
+                        'entityselect' => EntitySelect::class,
+                        'entitySelect' => EntitySelect::class,
+                    ]
+                ],
 
                 'forms' => [],
 
