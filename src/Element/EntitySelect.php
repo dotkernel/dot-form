@@ -11,9 +11,9 @@ declare(strict_types = 1);
 
 namespace Dot\Form\Element;
 
-use Dot\Ems\Entity\EntityInterface;
-use Dot\Ems\Mapper\MapperInterface;
-use Dot\Ems\Mapper\MapperManager;
+use Dot\Mapper\Entity\EntityInterface;
+use Dot\Mapper\Mapper\MapperInterface;
+use Dot\Mapper\Mapper\MapperManager;
 use Zend\Form\Element\Select;
 use Zend\Stdlib\ArrayUtils;
 

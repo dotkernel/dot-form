@@ -11,7 +11,7 @@ declare(strict_types = 1);
 
 namespace Dot\Form\Factory;
 
-use Dot\Ems\Mapper\MapperManager;
+use Dot\Mapper\Mapper\MapperManager;
 use Interop\Container\ContainerInterface;
 use Zend\Form\ElementFactory;
 
