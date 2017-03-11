@@ -29,7 +29,7 @@
     "squizlabs/php_codesniffer": "^2.5",
     "doctrine/annotations": "^1.3",
 
-    "dotkernel/dot-mapper": "~0.1"
+    "dotkernel/dot-mapper": "^0.1"
   },
   "autoload": {
     "psr-4": {
