@@ -16,20 +16,20 @@
   ],
   "require": {
     "php": "^7.1",
-    "zendframework/zend-servicemanager": "^3.0",
+    "zendframework/zend-servicemanager": "^3.3.0",
     "zendframework/zend-form": "^2.9",
 
-    "dotkernel/dot-hydrator": "^1.0",
-    "dotkernel/dot-filter": "^1.0",
-    "dotkernel/dot-validator": "^1.0",
-    "dotkernel/dot-inputfilter": "^1.0"
+    "dotkernel/dot-hydrator": "^1.1",
+    "dotkernel/dot-filter": "^1.1",
+    "dotkernel/dot-validator": "^1.1",
+    "dotkernel/dot-inputfilter": "^1.1"
   },
   "require-dev": {
     "phpunit/phpunit": "^4.7",
     "squizlabs/php_codesniffer": "^2.5",
     "doctrine/annotations": "^1.3",
 
-    "dotkernel/dot-mapper": "^0.1"
+    "dotkernel/dot-mapper": "^0.2"
   },
   "autoload": {
     "psr-4": {
@@ -43,7 +43,8 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "1.1-dev"
+      "dev-master": "1.1-dev",
+      "dev-develop": "1.2-dev"
     }
   }
 }

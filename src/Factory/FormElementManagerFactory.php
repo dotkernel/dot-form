@@ -10,7 +10,7 @@ declare(strict_types = 1);
 namespace Dot\Form\Factory;
 
 use Dot\Form\FormElementManager;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 
 /**
  * Class FormElementManagerFactory

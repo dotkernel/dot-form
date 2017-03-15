@@ -10,7 +10,7 @@ declare(strict_types = 1);
 namespace Dot\Form\Factory;
 
 use Dot\Mapper\Mapper\MapperManager;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Zend\Form\ElementFactory;
 
 /**
@@ -25,6 +25,7 @@ class EntitySelectFactory
         $elementFactory = new ElementFactory();
         $options['mapper_manager'] = $container->get(MapperManager::class);
 
+        /** @var \Interop\Container\ContainerInterface $container */
         return $elementFactory->__invoke($container, $requestedName, $options);
     }
 }
