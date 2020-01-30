@@ -9,7 +9,7 @@ declare(strict_types = 1);
 
 namespace Dot\Form;
 
-use Zend\Form\FormElementManager\FormElementManagerV3Polyfill;
+use Laminas\Form\FormElementManager\FormElementManagerV3Polyfill;
 
 /**
  * Class FormElementManager

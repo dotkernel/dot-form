@@ -11,7 +11,7 @@ namespace Dot\Form\Factory;
 
 use Dot\Mapper\Mapper\MapperManager;
 use Psr\Container\ContainerInterface;
-use Zend\Form\ElementFactory;
+use Laminas\Form\ElementFactory;
 
 /**
  * Class EntitySelectFactory

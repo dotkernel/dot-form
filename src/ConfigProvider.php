@@ -13,8 +13,8 @@ use Dot\Form\Element\EntitySelect;
 use Dot\Form\Factory\EntitySelectFactory;
 use Dot\Form\Factory\FormAbstractServiceFactory;
 use Dot\Form\Factory\FormElementManagerFactory;
-use Zend\Form\Annotation\AnnotationBuilder;
-use Zend\Form\Annotation\AnnotationBuilderFactory;
+use Laminas\Form\Annotation\AnnotationBuilder;
+use Laminas\Form\Annotation\AnnotationBuilderFactory;
 
 /**
  * Class ConfigProvider
@@ -54,7 +54,7 @@ class ConfigProvider
                 FormAbstractServiceFactory::class,
             ],
             'aliases' => [
-                'Zend\Form\Annotation\FormAnnotationBuilder' => 'FormAnnotationBuilder',
+                'Laminas\Form\Annotation\FormAnnotationBuilder' => 'FormAnnotationBuilder',
                 AnnotationBuilder::class => 'FormAnnotationBuilder',
                 FormElementManager::class => 'FormElementManager',
             ],
@@ -67,7 +67,7 @@ class ConfigProvider
 
     public function getViewHelpersConfig(): array
     {
-        $zendFormConfigProvider = new \Zend\Form\ConfigProvider();
-        return $zendFormConfigProvider->getViewHelperConfig();
+        $laminasFormConfigProvider = new \Laminas\Form\ConfigProvider();
+        return $laminasFormConfigProvider->getViewHelperConfig();
     }
 }

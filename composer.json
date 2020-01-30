@@ -1,50 +1,49 @@
 {
-  "name": "dotkernel/dot-form",
-  "description": "DotKernel form component extending and customizing zend-form",
-  "authors": [
-    {
-      "name": "DotKernel Team",
-      "email": "team@dotkernel.com"
+    "name": "dotkernel/dot-form",
+    "description": "DotKernel form component extending and customizing laminas-form",
+    "authors": [
+        {
+            "name": "DotKernel Team",
+            "email": "team@dotkernel.com"
+        }
+    ],
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "form",
+        "input filter",
+        "services"
+    ],
+    "require": {
+        "php": "^7.2",
+        "laminas/laminas-servicemanager": "^3.3",
+        "laminas/laminas-form": "^2.11",
+        "dotkernel/dot-hydrator": "^2.0",
+        "dotkernel/dot-filter": "^2.0",
+        "dotkernel/dot-validator": "^2.0",
+        "dotkernel/dot-inputfilter": "^2.0",
+        "laminas/laminas-dependency-plugin": "^1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4.7",
+        "squizlabs/php_codesniffer": "^2.5",
+        "doctrine/annotations": "^1.6",
+        "dotkernel/dot-mapper": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Dot\\Form\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "DotTest\\Form\\": "tests"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0-dev",
+            "dev-develop": "2.1-dev"
+        }
     }
-  ],
-  "type": "library",
-  "license": "MIT",
-  "keywords": [
-    "form",
-    "input filter",
-    "services"
-  ],
-  "require": {
-    "php": "^7.1",
-    "zendframework/zend-servicemanager": "^3.3",
-    "zendframework/zend-form": "^2.11",
-
-    "dotkernel/dot-hydrator": "^1.1",
-    "dotkernel/dot-filter": "^1.1",
-    "dotkernel/dot-validator": "^1.1",
-    "dotkernel/dot-inputfilter": "^1.1"
-  },
-  "require-dev": {
-    "phpunit/phpunit": "^4.7",
-    "squizlabs/php_codesniffer": "^2.5",
-    "doctrine/annotations": "^1.6",
-
-    "dotkernel/dot-mapper": "^1.0"
-  },
-  "autoload": {
-    "psr-4": {
-      "Dot\\Form\\": "src"
-    }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "DotTest\\Form\\": "tests"
-    }
-  },
-  "extra": {
-    "branch-alias": {
-      "dev-master": "1.1-dev",
-      "dev-develop": "1.2-dev"
-    }
-  }
 }

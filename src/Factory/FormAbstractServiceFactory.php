@@ -10,14 +10,14 @@ declare(strict_types = 1);
 namespace Dot\Form\Factory;
 
 use Interop\Container\ContainerInterface;
-use Zend\InputFilter\Factory;
-use Zend\Stdlib\ArrayUtils;
+use Laminas\InputFilter\Factory;
+use Laminas\Stdlib\ArrayUtils;
 
 /**
  * Class FormAbstractServiceFactory
  * @package Dot\Form\Factory
  */
-class FormAbstractServiceFactory extends \Zend\Form\FormAbstractServiceFactory
+class FormAbstractServiceFactory extends \Laminas\Form\FormAbstractServiceFactory
 {
     const PREFIX = 'dot-form';
 
@@ -48,7 +48,7 @@ class FormAbstractServiceFactory extends \Zend\Form\FormAbstractServiceFactory
      * @param ContainerInterface $container
      * @param string $requestedName
      * @param array|null $options
-     * @return \Zend\Form\ElementInterface
+     * @return \Laminas\Form\ElementInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
@@ -94,7 +94,7 @@ class FormAbstractServiceFactory extends \Zend\Form\FormAbstractServiceFactory
         return $this->config;
     }
 
-    protected function getFormFactory(ContainerInterface $container): \Zend\Form\Factory
+    protected function getFormFactory(ContainerInterface $container): \Laminas\Form\Factory
     {
         $formFactory = parent::getFormFactory($container);
         if ($container->has('InputFilterManager')) {

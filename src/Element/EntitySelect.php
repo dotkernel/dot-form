@@ -12,8 +12,8 @@ namespace Dot\Form\Element;
 use Dot\Mapper\Entity\EntityInterface;
 use Dot\Mapper\Mapper\MapperInterface;
 use Dot\Mapper\Mapper\MapperManager;
-use Zend\Form\Element\Select;
-use Zend\Stdlib\ArrayUtils;
+use Laminas\Form\Element\Select;
+use Laminas\Stdlib\ArrayUtils;
 
 /**
  * Class EntitySelect
