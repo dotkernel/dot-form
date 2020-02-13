@@ -17,11 +17,7 @@
     "require": {
         "php": "^7.2",
         "laminas/laminas-servicemanager": "^3.3",
-        "laminas/laminas-form": "^2.11",
-        "dotkernel/dot-hydrator": "^2.0",
-        "dotkernel/dot-filter": "^2.0",
-        "dotkernel/dot-validator": "^2.0",
-        "dotkernel/dot-inputfilter": "^2.0",
+        "laminas/laminas-form": "^2.14",
         "laminas/laminas-dependency-plugin": "^1.0"
     },
     "require-dev": {
