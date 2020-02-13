@@ -9,8 +9,6 @@ declare(strict_types = 1);
 
 namespace Dot\Form;
 
-use Dot\Form\Element\EntitySelect;
-use Dot\Form\Factory\EntitySelectFactory;
 use Dot\Form\Factory\FormAbstractServiceFactory;
 use Dot\Form\Factory\FormElementManagerFactory;
 use Laminas\Form\Annotation\AnnotationBuilder;
@@ -29,18 +27,6 @@ class ConfigProvider
             'view_helpers' => $this->getViewHelpersConfig(),
 
             'dot_form' => [
-
-                'form_manager' => [
-                    'factories' => [
-                        EntitySelect::class => EntitySelectFactory::class,
-                    ],
-                    'aliases' => [
-                        'EntitySelect' => EntitySelect::class,
-                        'entityselect' => EntitySelect::class,
-                        'entitySelect' => EntitySelect::class,
-                    ]
-                ],
-
                 'forms' => [],
 
             ],
