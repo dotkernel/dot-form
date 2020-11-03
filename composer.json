@@ -1,14 +1,9 @@
 {
     "name": "dotkernel/dot-form",
-    "description": "DotKernel form component extending and customizing laminas-form",
-    "authors": [
-        {
-            "name": "DotKernel Team",
-            "email": "team@dotkernel.com"
-        }
-    ],
     "type": "library",
+    "description": "DotKernel form component extending and customizing laminas-form",
     "license": "MIT",
+    "homepage": "https://github.com/dotkernel/dot-form",
     "keywords": [
         "form",
         "input filter",
@@ -16,11 +11,17 @@
         "laminas",
         "laminas-form"
     ],
+    "authors": [
+        {
+            "name": "DotKernel Team",
+            "email": "team@dotkernel.com"
+        }
+    ],
     "require": {
         "php": "^7.4",
         "laminas/laminas-servicemanager": "^3.4",
-        "laminas/laminas-form": "^2.14",
-        "laminas/laminas-dependency-plugin": "^1.0"
+        "laminas/laminas-form": "^2.15",
+        "laminas/laminas-dependency-plugin": "^2.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.1",
@@ -35,12 +36,6 @@
     "autoload-dev": {
         "psr-4": {
             "DotTest\\Form\\": "tests"
-        }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "3.0-dev",
-            "dev-develop": "3.1-dev"
         }
     }
 }
