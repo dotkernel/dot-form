@@ -20,7 +20,7 @@
     "require": {
         "php": "^7.4",
         "laminas/laminas-servicemanager": "^3.4",
-        "laminas/laminas-form": "^2.15",
+        "laminas/laminas-form": "^3.1.1",
         "laminas/laminas-dependency-plugin": "^2.0"
     },
     "require-dev": {
