@@ -11,13 +11,15 @@ namespace Dot\Form\Factory;
 
 use Interop\Container\ContainerInterface;
 use Laminas\InputFilter\Factory;
+use Laminas\InputFilter\InputFilterInterface;
+use Laminas\ServiceManager\Factory\AbstractFactoryInterface;
 use Laminas\Stdlib\ArrayUtils;
 
 /**
  * Class FormAbstractServiceFactory
  * @package Dot\Form\Factory
  */
-class FormAbstractServiceFactory extends \Laminas\Form\FormAbstractServiceFactory
+class FormAbstractServiceFactory implements AbstractFactoryInterface
 {
     const PREFIX = 'dot-form';
 
@@ -102,5 +104,42 @@ class FormAbstractServiceFactory extends \Laminas\Form\FormAbstractServiceFactor
         }
 
         return $formFactory;
+    }
+
+    /**
+     * Marshal the input filter into the configuration
+     *
+     * If an input filter is specified:
+     * - if the InputFilterManager is present, checks if it's there; if so,
+     *   retrieves it and resets the specification to the instance.
+     * - otherwise, pulls the input filter factory from the form factory, and
+     *   attaches the FilterManager and ValidatorManager to it.
+     *
+     * @param array $config
+     */
+    protected function marshalInputFilter(array &$config, ContainerInterface $container, \Laminas\Form\Factory $formFactory): void
+    {
+        if (! isset($config['input_filter'])) {
+            return;
+        }
+
+        if ($config['input_filter'] instanceof InputFilterInterface) {
+            return;
+        }
+
+        if (
+            is_string($config['input_filter'])
+            && $container->has('InputFilterManager')
+        ) {
+            $inputFilters = $container->get('InputFilterManager');
+            if ($inputFilters->has($config['input_filter'])) {
+                $config['input_filter'] = $inputFilters->get($config['input_filter']);
+                return;
+            }
+        }
+
+        $inputFilterFactory = $formFactory->getInputFilterFactory();
+        $inputFilterFactory->getDefaultFilterChain()->setPluginManager($container->get('FilterManager'));
+        $inputFilterFactory->getDefaultValidatorChain()->setPluginManager($container->get('ValidatorManager'));
     }
 }
