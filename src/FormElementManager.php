@@ -9,13 +9,11 @@ declare(strict_types = 1);
 
 namespace Dot\Form;
 
-use Laminas\Form\FormElementManager\FormElementManagerV3Polyfill;
-
 /**
  * Class FormElementManager
  * @package Dot\Form
  */
-class FormElementManager extends FormElementManagerV3Polyfill
+class FormElementManager extends \Laminas\Form\FormElementManager
 {
 
 }
