@@ -3,7 +3,7 @@
 DotKernel form component extending and customizing [laminas-form](https://github.com/laminas/laminas-form)
 
 ![OSS Lifecycle](https://img.shields.io/osslifecycle/dotkernel/dot-form)
-![PHP from Packagist (specify version)](https://img.shields.io/packagist/php-v/dotkernel/dot-form/4.0)
+![PHP from Packagist (specify version)](https://img.shields.io/packagist/php-v/dotkernel/dot-form/4.0.0)
 
 
 
