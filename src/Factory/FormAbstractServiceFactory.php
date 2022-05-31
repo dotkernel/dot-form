@@ -14,12 +14,13 @@ use Laminas\InputFilter\Factory;
 use Laminas\InputFilter\InputFilterInterface;
 use Laminas\ServiceManager\Factory\AbstractFactoryInterface;
 use Laminas\Stdlib\ArrayUtils;
+use Laminas\Log\LoggerAbstractServiceFactory;
 
 /**
  * Class FormAbstractServiceFactory
  * @package Dot\Form\Factory
  */
-class FormAbstractServiceFactory implements AbstractFactoryInterface
+class FormAbstractServiceFactory extends LoggerAbstractServiceFactory
 {
     const PREFIX = 'dot-form';
 
