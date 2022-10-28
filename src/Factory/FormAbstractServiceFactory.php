@@ -10,25 +10,33 @@ declare(strict_types = 1);
 namespace Dot\Form\Factory;
 
 use Interop\Container\ContainerInterface;
+use Laminas\Form\FormElementManager;
 use Laminas\InputFilter\Factory;
 use Laminas\InputFilter\InputFilterInterface;
 use Laminas\ServiceManager\Factory\AbstractFactoryInterface;
 use Laminas\Stdlib\ArrayUtils;
-use Laminas\Log\LoggerAbstractServiceFactory;
+use Psr\Container\NotFoundExceptionInterface;
+use Psr\Container\ContainerExceptionInterface;
 
 /**
  * Class FormAbstractServiceFactory
  * @package Dot\Form\Factory
  */
-class FormAbstractServiceFactory extends LoggerAbstractServiceFactory
+class FormAbstractServiceFactory implements AbstractFactoryInterface
 {
     const PREFIX = 'dot-form';
+
+    /** @var null|array */
+    private $config;
 
     /** @var string */
     protected $configKey = 'dot_form';
 
     /** @var string */
     protected $subConfigKey = 'forms';
+
+    /** @var null|\Laminas\Form\Factory Form factory used to create forms */
+    private ?Factory $factory = null;
 
     /**
      * @param ContainerInterface $container
@@ -38,20 +46,27 @@ class FormAbstractServiceFactory extends LoggerAbstractServiceFactory
     public function canCreate(ContainerInterface $container, $requestedName)
     {
         $parts = explode('.', $requestedName);
+
         if (count($parts) !== 2) {
             return false;
         }
         if ($parts[0] !== static::PREFIX) {
             return false;
         }
-        return parent::canCreate($container, $parts[1]);
+
+        $config = $this->getConfig($container);
+        if (empty($config)) {
+            return false;
+        }
+
+        return isset($config[$parts[1]]);
     }
 
     /**
      * @param ContainerInterface $container
-     * @param string $requestedName
+     * @param $requestedName
      * @param array|null $options
-     * @return \Laminas\Form\ElementInterface
+     * @return void
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
@@ -77,8 +92,6 @@ class FormAbstractServiceFactory extends LoggerAbstractServiceFactory
         } while ($extendsConfigKey != null);
 
         $this->config[$parts[1]] = $specificConfig;
-
-        return parent::__invoke($container, $parts[1], $options);
     }
 
     /**
@@ -87,7 +100,25 @@ class FormAbstractServiceFactory extends LoggerAbstractServiceFactory
      */
     protected function getConfig(ContainerInterface $container): array
     {
-        parent::getConfig($container);
+        if ($this->config !== null) {
+            return $this->config;
+        }
+
+        if (! $container->has('config')) {
+            $this->config = [];
+
+            return $this->config;
+        }
+
+        $config = $container->get('config');
+        if (! isset($config[$this->configKey])) {
+            $this->config = [];
+
+            return $this->config;
+        }
+
+        $this->config = $config[$this->configKey];
+
         if (!empty($this->config)) {
             if (isset($this->config[$this->subConfigKey]) && is_array($this->config[$this->subConfigKey])) {
                 $this->config = $this->config[$this->subConfigKey];
@@ -97,14 +128,25 @@ class FormAbstractServiceFactory extends LoggerAbstractServiceFactory
         return $this->config;
     }
 
+    /**
+     * @param ContainerInterface $container
+     * @return \Laminas\Form\Factory
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     protected function getFormFactory(ContainerInterface $container): \Laminas\Form\Factory
     {
-        $formFactory = parent::getFormFactory($container);
-        if ($container->has('InputFilterManager')) {
-            $formFactory->setInputFilterFactory(new Factory($container->get('InputFilterManager')));
+        if ($this->factory instanceof Factory) {
+            return $this->factory;
         }
 
-        return $formFactory;
+        $elements = null;
+        if ($container->has(FormElementManager::class)) {
+            $elements = $container->get(FormElementManager::class);
+        }
+
+        $this->factory = new Factory($elements);
+        return $this->factory;
     }
 
     /**
