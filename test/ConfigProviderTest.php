@@ -41,6 +41,6 @@ class ConfigProviderTest extends TestCase
     public function testDependenciesHasFactories(): void
     {
         $this->assertArrayHasKey('factories', $this->config['dependencies']);
-        $this->assertArrayHasKey(FormElementManager::class, $this->config['dependencies']['factories']);
+        $this->assertArrayHasKey('FormElementManager', $this->config['dependencies']['factories']);
     }
 }
