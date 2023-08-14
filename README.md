@@ -5,9 +5,6 @@ DotKernel form component extending and customizing [laminas-form](https://github
 ![OSS Lifecycle](https://img.shields.io/osslifecycle/dotkernel/dot-form)
 ![PHP from Packagist (specify version)](https://img.shields.io/packagist/php-v/dotkernel/dot-form/4.2.0)
 
-
-
-
 [![GitHub issues](https://img.shields.io/github/issues/dotkernel/dot-form)](https://github.com/dotkernel/dot-form/issues)
 [![GitHub forks](https://img.shields.io/github/forks/dotkernel/dot-form)](https://github.com/dotkernel/dot-form/network)
 [![GitHub stars](https://img.shields.io/github/stars/dotkernel/dot-form)](https://github.com/dotkernel/dot-form/stargazers)
@@ -15,4 +12,4 @@ DotKernel form component extending and customizing [laminas-form](https://github
 
 [![Build Static](https://github.com/dotkernel/dot-form/actions/workflows/static-analysis.yml/badge.svg?branch=4.0)](https://github.com/dotkernel/dot-form/actions/workflows/static-analysis.yml)
 
-[![SymfonyInsight](https://insight.symfony.com/projects/370a5200-2e49-47da-9988-8e1de8f49502/big.svg)](https://insight.symfony.com/projects/370a5200-2e49-47da-9988-8e1de8f49502https://insight.symfony.com/projects/370a5200-2e49-47da-9988-8e1de8f49502)
+[![SymfonyInsight](https://insight.symfony.com/projects/370a5200-2e49-47da-9988-8e1de8f49502/big.svg)](https://insight.symfony.com/projects/370a5200-2e49-47da-9988-8e1de8f49502)

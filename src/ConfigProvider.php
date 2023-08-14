@@ -29,10 +29,9 @@ class ConfigProvider
             ],
             'aliases'            => [
                 FormElementManager::class => 'FormElementManager',
-                'FormElementManager'      => FormElementManagerFactory::class,
             ],
             'factories'          => [
-                FormElementManager::class => FormElementManagerFactory::class,
+                'FormElementManager'      => FormElementManagerFactory::class,
             ],
         ];
     }

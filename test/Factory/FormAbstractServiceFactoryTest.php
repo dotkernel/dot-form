@@ -195,6 +195,7 @@ class FormAbstractServiceFactoryTest extends TestCase
 
     /**
      * @throws Exception
+     * @throws ReflectionException
      */
     public function testGetExistingFormFactory(): void
     {
@@ -225,6 +226,7 @@ class FormAbstractServiceFactoryTest extends TestCase
 
     /**
      * @throws Exception
+     * @throws ReflectionException
      */
     public function testGetFormFactoryExistingFormElementManager(): void
     {
