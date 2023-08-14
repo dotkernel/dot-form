@@ -31,7 +31,7 @@ class ConfigProvider
                 FormElementManager::class => 'FormElementManager',
             ],
             'factories'          => [
-                'FormElementManager'      => FormElementManagerFactory::class,
+                'FormElementManager' => FormElementManagerFactory::class,
             ],
         ];
     }
