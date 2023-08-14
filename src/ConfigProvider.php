@@ -1,23 +1,13 @@
 <?php
-/**
- * @see https://github.com/dotkernel/dot-form/ for the canonical source repository
- * @copyright Copyright (c) 2017 Apidemia (https://www.apidemia.com)
- * @license https://github.com/dotkernel/dot-form/blob/master/LICENSE.md MIT License
- */
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Dot\Form;
 
 use Dot\Form\Factory\FormAbstractServiceFactory;
 use Dot\Form\Factory\FormElementManagerFactory;
-use Laminas\Form\Annotation\AnnotationBuilder;
-use Laminas\Form\Annotation\AnnotationBuilderFactory;
+use Laminas\Form\ConfigProvider as LaminasConfigProvider;
 
-/**
- * Class ConfigProvider
- * @package Dot\Form
- */
 class ConfigProvider
 {
     public function __invoke(): array
@@ -25,10 +15,8 @@ class ConfigProvider
         return [
             'dependencies' => $this->getDependenciesConfig(),
             'view_helpers' => $this->getViewHelpersConfig(),
-
-            'dot_form' => [
+            'dot_form'     => [
                 'forms' => [],
-
             ],
         ];
     }
@@ -39,21 +27,18 @@ class ConfigProvider
             'abstract_factories' => [
                 FormAbstractServiceFactory::class,
             ],
-            'aliases' => [
-                'Laminas\Form\Annotation\FormAnnotationBuilder' => 'FormAnnotationBuilder',
-                AnnotationBuilder::class => 'FormAnnotationBuilder',
+            'aliases'            => [
                 FormElementManager::class => 'FormElementManager',
             ],
-            'factories' => [
+            'factories'          => [
                 'FormElementManager' => FormElementManagerFactory::class,
-                'FormAnnotationBuilder' => AnnotationBuilderFactory::class,
-            ]
+            ],
         ];
     }
 
     public function getViewHelpersConfig(): array
     {
-        $laminasFormConfigProvider = new \Laminas\Form\ConfigProvider();
+        $laminasFormConfigProvider = new LaminasConfigProvider();
         return $laminasFormConfigProvider->getViewHelperConfig();
     }
 }

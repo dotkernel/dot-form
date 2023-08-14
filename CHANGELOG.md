@@ -1,3 +1,21 @@
+## 4.2.0 - 2023-08-14
+
+### Changed
+* Added unit tests & removed laminas/laminas-log dependency
+
+### Added
+* Unit Tests
+
+### Deprecated
+* Nothing
+
+### Removed
+* laminas/laminas-log dependency
+
+### Fixed
+* Decoupled packages from laminas/laminas-log
+
+
 ## 4.0.1 - 2022-05-31
 
 ### Changed

@@ -1,94 +1,107 @@
 <?php
-/**
- * @see https://github.com/dotkernel/dot-form/ for the canonical source repository
- * @copyright Copyright (c) 2017 Apidemia (https://www.apidemia.com)
- * @license https://github.com/dotkernel/dot-form/blob/master/LICENSE.md MIT License
- */
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Dot\Form\Factory;
 
-use Interop\Container\ContainerInterface;
-use Laminas\InputFilter\Factory;
+use Laminas\Filter\FilterPluginManager;
+use Laminas\Form\Factory;
+use Laminas\Form\Factory as FormFactory;
+use Laminas\Form\FormElementManager;
+use Laminas\Form\FormInterface;
 use Laminas\InputFilter\InputFilterInterface;
+use Laminas\InputFilter\InputFilterPluginManager;
 use Laminas\ServiceManager\Factory\AbstractFactoryInterface;
-use Laminas\Stdlib\ArrayUtils;
-use Laminas\Log\LoggerAbstractServiceFactory;
+use Laminas\Validator\ValidatorPluginManager;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
-/**
- * Class FormAbstractServiceFactory
- * @package Dot\Form\Factory
- */
-class FormAbstractServiceFactory extends LoggerAbstractServiceFactory
+use function count;
+use function explode;
+use function is_array;
+use function is_string;
+
+class FormAbstractServiceFactory implements AbstractFactoryInterface
 {
-    const PREFIX = 'dot-form';
+    public const PREFIX = 'dot-form';
 
-    /** @var string */
-    protected $configKey = 'dot_form';
+    private ?array $config = null;
 
-    /** @var string */
-    protected $subConfigKey = 'forms';
+    protected string $configKey = 'dot_form';
+
+    protected string $subConfigKey = 'forms';
+
+    private ?FormFactory $factory = null;
 
     /**
-     * @param ContainerInterface $container
      * @param string $requestedName
-     * @return bool
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
-    public function canCreate(ContainerInterface $container, $requestedName)
+    public function canCreate(ContainerInterface $container, $requestedName): bool
     {
+        // avoid infinite loops when looking up config
+        if ($requestedName === 'config') {
+            return false;
+        }
+
         $parts = explode('.', $requestedName);
         if (count($parts) !== 2) {
             return false;
         }
+
         if ($parts[0] !== static::PREFIX) {
             return false;
         }
-        return parent::canCreate($container, $parts[1]);
-    }
 
-    /**
-     * @param ContainerInterface $container
-     * @param string $requestedName
-     * @param array|null $options
-     * @return \Laminas\Form\ElementInterface
-     */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
-    {
-        $parts = explode('.', $requestedName);
-
-        //merge configs if extends another form
         $config = $this->getConfig($container);
-        $specificConfig = $config[$parts[1]];
+        if (empty($config)) {
+            return false;
+        }
 
-        do {
-            $extendsConfigKey = isset($specificConfig['extends']) && is_string($specificConfig['extends'])
-                ? trim($specificConfig['extends'])
-                : null;
-
-            unset($specificConfig['extends']);
-
-            if (!is_null($extendsConfigKey)
-                && array_key_exists($extendsConfigKey, $config)
-                && is_array($config[$extendsConfigKey])
-            ) {
-                $specificConfig = ArrayUtils::merge($config[$extendsConfigKey], $specificConfig);
-            }
-        } while ($extendsConfigKey != null);
-
-        $this->config[$parts[1]] = $specificConfig;
-
-        return parent::__invoke($container, $parts[1], $options);
+        return ! empty($config[$requestedName]) && is_array($config[$requestedName]);
     }
 
     /**
-     * @param ContainerInterface $container
-     * @return array
+     * @param string $requestedName
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): FormInterface
+    {
+        $config  = $this->getConfig($container);
+        $config  = $config[$requestedName];
+        $factory = $this->getFormFactory($container);
+
+        $this->marshalInputFilter($config, $container, $factory);
+        return $factory->createForm($config);
+    }
+
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     protected function getConfig(ContainerInterface $container): array
     {
-        parent::getConfig($container);
-        if (!empty($this->config)) {
+        if ($this->config !== null) {
+            return $this->config;
+        }
+
+        if (! $container->has('config')) {
+            $this->config = [];
+            return $this->config;
+        }
+
+        $config = $container->get('config');
+        if (! isset($config[$this->configKey]) || ! is_array($config[$this->configKey])) {
+            $this->config = [];
+            return $this->config;
+        }
+
+        $this->config = $config[$this->configKey];
+
+        if (! empty($this->config)) {
             if (isset($this->config[$this->subConfigKey]) && is_array($this->config[$this->subConfigKey])) {
                 $this->config = $this->config[$this->subConfigKey];
             }
@@ -97,28 +110,30 @@ class FormAbstractServiceFactory extends LoggerAbstractServiceFactory
         return $this->config;
     }
 
-    protected function getFormFactory(ContainerInterface $container): \Laminas\Form\Factory
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    protected function getFormFactory(ContainerInterface $container): FormFactory
     {
-        $formFactory = parent::getFormFactory($container);
-        if ($container->has('InputFilterManager')) {
-            $formFactory->setInputFilterFactory(new Factory($container->get('InputFilterManager')));
+        if ($this->factory instanceof Factory) {
+            return $this->factory;
         }
 
-        return $formFactory;
+        $elements = null;
+        if ($container->has(FormElementManager::class)) {
+            $elements = $container->get(FormElementManager::class);
+        }
+
+        $this->factory = new Factory($elements);
+        return $this->factory;
     }
 
     /**
-     * Marshal the input filter into the configuration
-     *
-     * If an input filter is specified:
-     * - if the InputFilterManager is present, checks if it's there; if so,
-     *   retrieves it and resets the specification to the instance.
-     * - otherwise, pulls the input filter factory from the form factory, and
-     *   attaches the FilterManager and ValidatorManager to it.
-     *
-     * @param array $config
+     * @throws NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
      */
-    protected function marshalInputFilter(array &$config, ContainerInterface $container, \Laminas\Form\Factory $formFactory): void
+    protected function marshalInputFilter(array &$config, ContainerInterface $container, FormFactory $formFactory): void
     {
         if (! isset($config['input_filter'])) {
             return;
@@ -128,11 +143,8 @@ class FormAbstractServiceFactory extends LoggerAbstractServiceFactory
             return;
         }
 
-        if (
-            is_string($config['input_filter'])
-            && $container->has('InputFilterManager')
-        ) {
-            $inputFilters = $container->get('InputFilterManager');
+        if (is_string($config['input_filter']) && $container->has(InputFilterPluginManager::class)) {
+            $inputFilters = $container->get(InputFilterPluginManager::class);
             if ($inputFilters->has($config['input_filter'])) {
                 $config['input_filter'] = $inputFilters->get($config['input_filter']);
                 return;
@@ -140,7 +152,14 @@ class FormAbstractServiceFactory extends LoggerAbstractServiceFactory
         }
 
         $inputFilterFactory = $formFactory->getInputFilterFactory();
-        $inputFilterFactory->getDefaultFilterChain()->setPluginManager($container->get('FilterManager'));
-        $inputFilterFactory->getDefaultValidatorChain()->setPluginManager($container->get('ValidatorManager'));
+        $filterChain        = $inputFilterFactory->getDefaultFilterChain();
+        $filterChain?->setPluginManager(
+            $container->get(FilterPluginManager::class)
+        );
+
+        $validatorChain = $inputFilterFactory->getDefaultValidatorChain();
+        $validatorChain?->setPluginManager(
+            $container->get(ValidatorPluginManager::class)
+        );
     }
 }
