@@ -12,7 +12,9 @@ use Laminas\ServiceManager\Factory\AbstractFactoryInterface;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use ReflectionClass;
 use ReflectionException;
 
@@ -36,6 +38,10 @@ class FormAbstractServiceFactoryTest extends TestCase
         $this->assertInstanceOf(AbstractFactoryInterface::class, $this->subject);
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function testCanCreateReturnsFalseInvalidFormName(): void
     {
         $requestedName = 'invalidName';
@@ -44,6 +50,10 @@ class FormAbstractServiceFactoryTest extends TestCase
         $this->assertFalse($canCreate);
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function testCanCreateReturnsFalseMissingPrefix(): void
     {
         $requestedName = 'dot.form';
@@ -52,6 +62,10 @@ class FormAbstractServiceFactoryTest extends TestCase
         $this->assertFalse($canCreate);
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function testCanCreateReturnsFalseConfigProvided(): void
     {
         $requestedName = 'config';
@@ -61,6 +75,8 @@ class FormAbstractServiceFactoryTest extends TestCase
     }
 
     /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      * @throws Exception
      */
     public function testCanCreateReturnsFalseEmptyConfig(): void
@@ -75,6 +91,8 @@ class FormAbstractServiceFactoryTest extends TestCase
     }
 
     /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      * @throws Exception
      */
     public function testCanCreateReturnsFalseInvalidConfig(): void
@@ -90,6 +108,8 @@ class FormAbstractServiceFactoryTest extends TestCase
     }
 
     /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      * @throws Exception
      */
     public function testCanCreateReturnsTrue(): void

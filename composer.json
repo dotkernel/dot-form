@@ -30,7 +30,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Dot\\Form\\": "src"
+            "Dot\\Form\\": "src/"
         }
     },
     "autoload-dev": {

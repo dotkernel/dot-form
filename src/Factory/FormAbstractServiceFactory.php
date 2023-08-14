@@ -36,9 +36,16 @@ class FormAbstractServiceFactory implements AbstractFactoryInterface
 
     /**
      * @param string $requestedName
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function canCreate(ContainerInterface $container, $requestedName): bool
     {
+        // avoid infinite loops when looking up config
+        if ($requestedName === 'config') {
+            return false;
+        }
+
         $parts = explode('.', $requestedName);
         if (count($parts) !== 2) {
             return false;
@@ -48,17 +55,12 @@ class FormAbstractServiceFactory implements AbstractFactoryInterface
             return false;
         }
 
-        // avoid infinite loops when looking up config
-        if ($requestedName === 'config') {
-            return false;
-        }
-
         $config = $this->getConfig($container);
         if (empty($config)) {
             return false;
         }
 
-        return isset($config[$requestedName]) && is_array($config[$requestedName]) && ! empty($config[$requestedName]);
+        return ! empty($config[$requestedName]) && is_array($config[$requestedName]);
     }
 
     /**
@@ -76,6 +78,10 @@ class FormAbstractServiceFactory implements AbstractFactoryInterface
         return $factory->createForm($config);
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     protected function getConfig(ContainerInterface $container): array
     {
         if ($this->config !== null) {
@@ -104,6 +110,10 @@ class FormAbstractServiceFactory implements AbstractFactoryInterface
         return $this->config;
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     protected function getFormFactory(ContainerInterface $container): FormFactory
     {
         if ($this->factory instanceof Factory) {
