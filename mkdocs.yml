@@ -1,0 +1,19 @@
+docs_dir: docs/book
+site_dir: docs/html
+extra:
+  project: Packages
+  current_version: v4
+  versions:
+    - v4
+    - v3
+nav:
+  - Home: index.md
+  - v4:
+      - Overview: v4/overview.md
+  - v3:
+      - Overview: v3/overview.md
+site_name: dot-form
+site_description: "DotKernel form component extending laminas-form"
+repo_url: "https://github.com/dotkernel/dot-form"
+plugins:
+  - search
