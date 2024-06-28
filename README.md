@@ -1,5 +1,10 @@
 # dot-form
 
+> [!IMPORTANT]
+> dot-form is a wrapper on top of [laminas-form](https://github.com/laminas/laminas-form)
+>
+> ![OSS Lifecycle](https://img.shields.io/osslifecycle/laminas/laminas-form)
+
 DotKernel form component extending and customizing [laminas-form](https://github.com/laminas/laminas-form)
 
 ![OSS Lifecycle](https://img.shields.io/osslifecycle/dotkernel/dot-form)
