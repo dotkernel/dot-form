@@ -30,6 +30,6 @@ class FormElementManagerFactoryTest extends TestCase
 
         $formElementManagerFactory = (new FormElementManagerFactory())($container);
 
-        $this->assertInstanceOf(FormElementManager::class, $formElementManagerFactory);
+        $this->assertContainsOnlyInstancesOf(FormElementManager::class, [$formElementManagerFactory]);
     }
 }
