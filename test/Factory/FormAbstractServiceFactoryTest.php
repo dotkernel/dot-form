@@ -35,7 +35,7 @@ class FormAbstractServiceFactoryTest extends TestCase
 
     public function testClassImplementsAbstractFactoryInterface(): void
     {
-        $this->assertInstanceOf(AbstractFactoryInterface::class, $this->subject);
+        $this->assertContainsOnlyInstancesOf(AbstractFactoryInterface::class, [$this->subject]);
     }
 
     /**
